@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Space</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
+</head>
+
+<body>
+
+  
+    <div class="container">
+
+    <h1 class="py-5">The History of Space Travel</h1>
+    <p class="header pb-5">The history of space travel is marked by technological breakthroughs and groundbreaking milestones that have fundamentally changed access to space. In this timeline, you’ll learn about the most important milestones in this development—beginning with Falcon 1 Makes History in 2008 and continuing through to the First Block 5 Reflight in 2018.</p>
+
+  
+    <div class="containerLine">
+    <div class="space"></div> 
+
+    <% if (locals.historyData) { %>
+        <% historyData.forEach(event => { %>
+            <div class="history-card">
+                <h2><%= event.title %></h2>
+                <p><strong>Date:</strong> <%= new Date(event.event_date_utc).toLocaleDateString() %></p>
+                <p><%= event.details %></p>
+                
+                <% if (event.links.wikipedia) { %>
+                  <a href="<%= event.links.wikipedia %>" target="_blank" class="ghost-button">
+                      More Information
+                  </a>
+                <% } %>
+            </div>
+        <% }); %>
+
+        <div class="history-card">
+            <h2>Today</h2>
+            <p><strong>Date:</strong> <%= new Date().toLocaleDateString() %></p>
+            <p>The journey continues! Today, we are writing our own history in the space project.</p>
+        </div>
+
+        <% } else { %>
+            <p>Keine Daten verfügbar.</p>
+        <% } %>
+    </div>
+
+    <p class="py-5">
+      All information about the spaceflight history shown comes from the official SpaceX database. 
+      The historical events are integrated via the 
+      <a href="https://api.spacexdata.com/v3/history" target="_blank" rel="noopener noreferrer">SpaceX API</a>. 
+      Further detailed information about rockets, ships, launches, and missions is also available in the official SpaceX 
+      <a href="https://docs.spacexdata.com/#9f1dfdc0-fbe8-4ae5-9209-7f3d649a627c" target="_blank" rel="noopener noreferrer">API documentation</a>.
+    </p>
+
+  </div>
+
+  <div>
+    <p class="py-5 text-center">
+      Website by Cille - ©<%= new Date().getFullYear() %>
+    </p>
+  </div>
+
+
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</body>
+
+</html>

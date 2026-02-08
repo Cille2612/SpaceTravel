@@ -1,0 +1,159 @@
+/* Hintergrund-Setup */
+body{
+  background: #183761;
+  background: radial-gradient(circle, rgba(24, 55, 97, 1) 0%, rgba(49, 49, 69, 1) 11%, rgba(53, 0, 66, 1) 33%, rgba(45, 92, 92, 1) 59%, rgba(24, 55, 97, 1) 78%, rgba(2, 4, 43, 1) 97%);
+}
+
+h1{
+  font-size: 6rem !important;
+  color: aliceblue !important;
+} 
+
+.container > p {
+  font-size: 2rem;
+}
+
+*{
+  color: honeydew;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+.ghost-button {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #ffffff;               /* Weißer Text */
+  text-decoration: none;        /* Entfernt den Unterstrich */
+  border: 2px solid #ffffff;    /* Weißer Rand */
+  border-radius: 5px;           /* Leicht abgerundete Ecken */
+  background-color: transparent; /* Durchsichtig */
+  font-weight: bold;
+  transition: all 0.3s ease;    /* Macht den Hover-Effekt weich */
+  margin-top: 15px;
+}
+
+/* Effekt wenn man mit der Maus drüberfährt */
+.ghost-button:hover {
+  background-color: #ffffff;    /* Button wird weiß */
+  color: #050b14;               /* Text wird dunkel (wie dein Hintergrund) */
+  box-shadow: 0 0 15px #ffffff; /* Leichter Leuchteffekt */
+}
+
+.containerLine {
+    position: relative;
+    padding: 40px 0;
+    overflow: auto; /* WICHTIG: Erzeugt die Höhe für die Linie */
+    min-height: 100vh;
+}
+
+/* Die vertikale Linie */
+.containerLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    background: white;
+    transform: translateX(-50%);
+    z-index: 0;
+    bottom: 40px; /* ÄNDERUNG: Hört 40px vor dem Ende auf */
+}
+
+/* Die Pfeilspitze am Ende der Linie */
+.containerLine::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 15px; /* Position unterhalb der letzten Karte */
+    transform: translateX(-50%);
+    
+    /* Dreieck-Trick: Breite 0, aber dicke Ränder */
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 25px solid white; /* Die Farbe der Spitze */
+    
+    z-index: 1;
+}
+
+
+/* Grundeinstellungen für die Karten */
+.history-card {
+    position: relative;
+    width: 45%; /* Etwas weniger als 50% für Abstand zur Linie */
+    padding: 20px;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    clear: both; /* Verhindert Überlappungen */
+}
+
+/* Jede zweite Karte nach RECHTS schieben */
+.history-card:nth-child(even) {
+    float: right;
+    text-align: left;
+}
+
+/* Jede ungerade Karte nach LINKS schieben */
+.history-card:nth-child(odd) {
+    float: left;
+    text-align: right;
+}
+
+/* Der Punkt für alle Karten */
+.history-card::after {
+    content: '';
+    position: absolute;
+    top: 25px;
+    width: 12px;  /* Etwas größer für bessere Sichtbarkeit */
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px white;
+    z-index: 5;
+}
+
+/* Punkt-Position für LINKE Karten (ungerade) */
+.history-card:nth-child(odd)::after {
+    /* Wir schieben den Punkt von der rechten Kante der Karte 
+       genau in die Mitte des Containers */
+    right: calc(-5% - 8px); 
+    /* Erklärung: -5% ist der Abstand zur Mitte bei 45% Breite, 
+       -8px ist die halbe Breite des Punktes */
+}
+
+/* Punkt-Position für RECHTE Karten (gerade) */
+.history-card:nth-child(even)::after {
+    /* Wir schieben den Punkt von der linken Kante der Karte 
+       genau in die Mitte des Containers */
+    left: calc(-5% - 8px);
+}
+
+/* Responsive: Auf Handys alles untereinander und Linie nach links */
+@media (max-width: 768px) {
+    .containerLine::before { left: 20px; }
+    .history-card { width: 85%; float: right !important; text-align: left !important; }
+    .history-card:nth-child(odd)::after, .history-card:nth-child(even)::after {
+        left: -26px;
+    }
+}
+
+
+/* Styling für die Links im Text */
+p.py-5 a {
+  color: #cca2f4 !important; /* Ein schönes, kräftiges Lila */
+  text-decoration: underline; /* Unterstreichung beibehalten für Lesbarkeit */
+  transition: color 0.3s ease; /* Sanfter Farbübergang */
+}
+
+/* Hover-Effekt für die Links */
+p.py-5 a:hover {
+  color: #ffffff !important; /* Ein helleres Pastell-Lila beim Drüberfahren */
+  font-weight: 500 !important;
+  background-color: #63749a;
+  border-radius: 50px;
+  box-shadow: 0 0 10px #63749a; /* Leichter Leuchteffekt */
+}
