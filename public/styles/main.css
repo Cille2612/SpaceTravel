@@ -10,6 +10,12 @@
 body {
   background: #183761;
   background: radial-gradient(circle, rgba(24, 55, 97, 1) 0%, rgba(49, 49, 69, 1) 11%, rgba(53, 0, 66, 1) 33%, rgba(45, 92, 92, 1) 59%, rgba(24, 55, 97, 1) 78%, rgba(2, 4, 43, 1) 97%);
+  min-height: 100vh;
+  text-align: left;
+}
+
+.size_m{
+  font-size: 1.5rem;
 }
 
 /* Sterne-Effekt im Hintergrund */
@@ -44,6 +50,7 @@ h1 {
 
 .container > p {
   font-size: 1.5rem;
+  text-align: center;
 }
 
 /* --- 3. TIMELINE CONTAINER & LINE --- */
@@ -51,20 +58,21 @@ h1 {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 0;
-  overflow: hidden; /* Verhindert Float-Probleme */
+  padding: 40px 0 80px 0; /* Padding unten angepasst */
+  display: flow-root;      /* Zwingt den Container, die Höhe der Floats zu umschließen */
 }
 
 /* Die weiße Linie */
 .containerLine::before {
-  content: '';
+content: '';
   position: absolute;
   top: 0;
   left: 50%;
   width: 2px;
   background: white;
   transform: translateX(-50%);
-  bottom: 40px; /* Platz für Pfeilspitze */
+  /* Die Linie geht jetzt exakt bis zum Beginn der Pfeilspitze */
+  bottom: 15px; 
   z-index: 0;
 }
 
@@ -73,7 +81,7 @@ h1 {
   content: '';
   position: absolute;
   left: 50%;
-  bottom: 15px;
+  bottom: 1px;            /* Sitzt fest am echten Boden des Containers */
   transform: translateX(-50%);
   width: 0; 
   height: 0; 
@@ -106,31 +114,45 @@ h1 {
   text-align: left;
 }
 
-/* Letzte Karte braucht Platz für den Pfeil */
 .history-card:last-of-type {
   margin-bottom: 80px;
 }
 
-/* --- 5. TIMELINE DOTS (DIE PUNKTE) --- */
+/* --- 5. TIMELINE DOTS (BOMBENFEST AUF DER LINIE) --- */
 .history-card::after {
   content: '';
   position: absolute;
-  top: 25px;
+  top: 25px;         /* Höhe innerhalb der Karte */
   width: 14px;
   height: 14px;
   background: white;
   border-radius: 50%;
   box-shadow: 0 0 10px white;
   z-index: 5;
+
+  /* Die Magie für Desktop: */
+  left: 50% !important; 
+  /* Da die Karte selbst links oder rechts ist, müssen wir den Punkt 
+     relativ zur Bildschirmmitte zentrieren. 
+     Wir berechnen: Mitte des Bildschirms minus Position der Karte. */
 }
 
-/* Desktop-Positionierung der Punkte */
+/* DESKTOP-LOGIK: Punkt auf die Linie zwingen */
 @media (min-width: 769px) {
+  /* Linke Karten (odd) */
   .history-card:nth-of-type(odd)::after {
-    right: calc(-5% - 8px); /* 5% Lücke + halbe Punktbreite */
+    /* Schiebt den Punkt vom rechten Rand der Karte (100%) 
+       genau auf die 50% Linie des Containers */
+    left: auto !important;
+    right: calc(-5% - 7px) !important; 
   }
+
+  /* Rechte Karten (even) */
   .history-card:nth-of-type(even)::after {
-    left: calc(-5% - 8px);
+    /* Schiebt den Punkt vom linken Rand der Karte (0%) 
+       genau auf die 50% Linie des Containers */
+    left: calc(-5% - 7px) !important;
+    right: auto !important;
   }
 }
 
@@ -164,6 +186,7 @@ p.py-5 a:hover {
   color: #ffffff !important;
   background-color: #63749a;
   border-radius: 5px;
+  padding: 2px 8px;
   text-decoration: none;
 }
 
@@ -171,25 +194,55 @@ p.py-5 a:hover {
 @media (max-width: 768px) {
   h1 { font-size: 3rem !important; }
 
+  /* Linie nach links */
   .containerLine::before { 
     left: 20px; 
     transform: none; 
   }
 
+  /* Pfeilspitze nach links */
   .containerLine::after {
     left: 20px;
     transform: translateX(-50%);
   }
 
+  /* Karten untereinander */
   .history-card { 
     width: 85%; 
-    float: right !important; 
+    float: none !important; 
     text-align: left !important;
-    margin-left: 40px; 
+    margin-left: 50px !important; /* Platz für die Linie links */
+    margin-right: auto;
   }
 
+  /* Punkte nach links auf die 20px Linie */
   .history-card::after {
-    left: -33px !important; /* Korrigiert für die 20px Linie */
-    right: auto !important;
+    left: -30px !important; /* Fixer Versatz von der Karte zur 20px-Marke */
+    transform: translateX(-50%);
   }
+}
+
+
+/* --- 6. INTERACTIVE ELEMENTS (LINKS IM FOOTER) --- */
+
+
+
+/* Grundzustand der Links */
+p.py-5 a, 
+.footer-info a {
+  color: #cca2f4 !important; /* Das kräftige Pastell-Lila */
+  text-decoration: underline; /* Unterstreichung für bessere Lesbarkeit */
+  transition: all 0.3s ease; /* Macht den Übergang weich */
+  padding: 2px 4px;
+  display: inline-block;
+}
+
+/* Hover-Effekt: Wenn man mit der Maus drüberfährt */
+p.py-5 a:hover, 
+.footer-info a:hover {
+  color: #ffffff !important;   /* Text wird weiß */
+  background-color: #63749a;   /* Ein dezenter bläulicher Hintergrund */
+  border-radius: 5px;          /* Abgerundete Ecken am Hintergrund */
+  text-decoration: none;       /* Unterstreichung verschwindet beim Hover */
+  box-shadow: 0 0 15px #63749a; /* Der "Glow"-Effekt */
 }
