@@ -1,159 +1,195 @@
-/* Hintergrund-Setup */
-body{
-  background: #183761;
-  background: radial-gradient(circle, rgba(24, 55, 97, 1) 0%, rgba(49, 49, 69, 1) 11%, rgba(53, 0, 66, 1) 33%, rgba(45, 92, 92, 1) 59%, rgba(24, 55, 97, 1) 78%, rgba(2, 4, 43, 1) 97%);
-}
-
-h1{
-  font-size: 6rem !important;
-  color: aliceblue !important;
-} 
-
-.container > p {
-  font-size: 2rem;
-}
-
-*{
+/* --- 1. GLOBAL & BACKGROUND SETUP --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   color: honeydew;
   font-family: 'Courier New', Courier, monospace;
 }
 
+body {
+  background: #183761;
+  background: radial-gradient(circle, rgba(24, 55, 97, 1) 0%, rgba(49, 49, 69, 1) 11%, rgba(53, 0, 66, 1) 33%, rgba(45, 92, 92, 1) 59%, rgba(24, 55, 97, 1) 78%, rgba(2, 4, 43, 1) 97%);
+}
 
+/* Sterne-Effekt im Hintergrund */
+.space {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, white, transparent),
+    radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+    radial-gradient(1px 1px at 50px 160px, #ddd, transparent),
+    radial-gradient(2px 2px at 90px 40px, #fff, transparent);
+  background-size: 300px 300px;
+  animation: starsMove 150s linear infinite;
+}
+
+@keyframes starsMove {
+  from { background-position: 0 0; }
+  to { background-position: 0 1000px; }
+}
+
+/* --- 2. TYPOGRAPHY --- */
+h1 {
+  font-size: 6rem !important;
+  color: aliceblue !important;
+  padding: 40px 0;
+}
+
+.container > p {
+  font-size: 1.5rem;
+}
+
+/* --- 3. TIMELINE CONTAINER & LINE --- */
+.containerLine {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+  overflow: hidden; /* Verhindert Float-Probleme */
+}
+
+/* Die weiße Linie */
+.containerLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  background: white;
+  transform: translateX(-50%);
+  bottom: 40px; /* Platz für Pfeilspitze */
+  z-index: 0;
+}
+
+/* Die Pfeilspitze */
+.containerLine::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 15px;
+  transform: translateX(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 25px solid white;
+  z-index: 1;
+}
+
+/* --- 4. HISTORY CARDS --- */
+.history-card {
+  position: relative;
+  width: 45%;
+  padding: 20px;
+  margin-bottom: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  clear: both;
+}
+
+.history-card:nth-of-type(odd) {
+  float: left;
+  text-align: right;
+}
+
+.history-card:nth-of-type(even) {
+  float: right;
+  text-align: left;
+}
+
+/* Letzte Karte braucht Platz für den Pfeil */
+.history-card:last-of-type {
+  margin-bottom: 80px;
+}
+
+/* --- 5. TIMELINE DOTS (DIE PUNKTE) --- */
+.history-card::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px white;
+  z-index: 5;
+}
+
+/* Desktop-Positionierung der Punkte */
+@media (min-width: 769px) {
+  .history-card:nth-of-type(odd)::after {
+    right: calc(-5% - 8px); /* 5% Lücke + halbe Punktbreite */
+  }
+  .history-card:nth-of-type(even)::after {
+    left: calc(-5% - 8px);
+  }
+}
+
+/* --- 6. INTERACTIVE ELEMENTS --- */
 .ghost-button {
   display: inline-block;
   padding: 10px 20px;
-  color: #ffffff;               /* Weißer Text */
-  text-decoration: none;        /* Entfernt den Unterstrich */
-  border: 2px solid #ffffff;    /* Weißer Rand */
-  border-radius: 5px;           /* Leicht abgerundete Ecken */
-  background-color: transparent; /* Durchsichtig */
+  color: #ffffff;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  background-color: transparent;
   font-weight: bold;
-  transition: all 0.3s ease;    /* Macht den Hover-Effekt weich */
+  transition: all 0.3s ease;
   margin-top: 15px;
 }
 
-/* Effekt wenn man mit der Maus drüberfährt */
 .ghost-button:hover {
-  background-color: #ffffff;    /* Button wird weiß */
-  color: #050b14;               /* Text wird dunkel (wie dein Hintergrund) */
-  box-shadow: 0 0 15px #ffffff; /* Leichter Leuchteffekt */
+  background-color: #ffffff;
+  color: #050b14;
+  box-shadow: 0 0 15px #ffffff;
 }
 
-.containerLine {
-    position: relative;
-    padding: 40px 0;
-    overflow: auto; /* WICHTIG: Erzeugt die Höhe für die Linie */
-    min-height: 100vh;
-}
-
-/* Die vertikale Linie */
-.containerLine::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 2px;
-    background: white;
-    transform: translateX(-50%);
-    z-index: 0;
-    bottom: 40px; /* ÄNDERUNG: Hört 40px vor dem Ende auf */
-}
-
-/* Die Pfeilspitze am Ende der Linie */
-.containerLine::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 15px; /* Position unterhalb der letzten Karte */
-    transform: translateX(-50%);
-    
-    /* Dreieck-Trick: Breite 0, aber dicke Ränder */
-    width: 0; 
-    height: 0; 
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 25px solid white; /* Die Farbe der Spitze */
-    
-    z-index: 1;
-}
-
-
-/* Grundeinstellungen für die Karten */
-.history-card {
-    position: relative;
-    width: 45%; /* Etwas weniger als 50% für Abstand zur Linie */
-    padding: 20px;
-    margin-bottom: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    clear: both; /* Verhindert Überlappungen */
-}
-
-/* Jede zweite Karte nach RECHTS schieben */
-.history-card:nth-child(even) {
-    float: right;
-    text-align: left;
-}
-
-/* Jede ungerade Karte nach LINKS schieben */
-.history-card:nth-child(odd) {
-    float: left;
-    text-align: right;
-}
-
-/* Der Punkt für alle Karten */
-.history-card::after {
-    content: '';
-    position: absolute;
-    top: 25px;
-    width: 12px;  /* Etwas größer für bessere Sichtbarkeit */
-    height: 12px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 10px white;
-    z-index: 5;
-}
-
-/* Punkt-Position für LINKE Karten (ungerade) */
-.history-card:nth-child(odd)::after {
-    /* Wir schieben den Punkt von der rechten Kante der Karte 
-       genau in die Mitte des Containers */
-    right: calc(-5% - 8px); 
-    /* Erklärung: -5% ist der Abstand zur Mitte bei 45% Breite, 
-       -8px ist die halbe Breite des Punktes */
-}
-
-/* Punkt-Position für RECHTE Karten (gerade) */
-.history-card:nth-child(even)::after {
-    /* Wir schieben den Punkt von der linken Kante der Karte 
-       genau in die Mitte des Containers */
-    left: calc(-5% - 8px);
-}
-
-/* Responsive: Auf Handys alles untereinander und Linie nach links */
-@media (max-width: 768px) {
-    .containerLine::before { left: 20px; }
-    .history-card { width: 85%; float: right !important; text-align: left !important; }
-    .history-card:nth-child(odd)::after, .history-card:nth-child(even)::after {
-        left: -26px;
-    }
-}
-
-
-/* Styling für die Links im Text */
 p.py-5 a {
-  color: #cca2f4 !important; /* Ein schönes, kräftiges Lila */
-  text-decoration: underline; /* Unterstreichung beibehalten für Lesbarkeit */
-  transition: color 0.3s ease; /* Sanfter Farbübergang */
+  color: #cca2f4 !important;
+  text-decoration: underline;
+  transition: all 0.3s ease;
 }
 
-/* Hover-Effekt für die Links */
 p.py-5 a:hover {
-  color: #ffffff !important; /* Ein helleres Pastell-Lila beim Drüberfahren */
-  font-weight: 500 !important;
+  color: #ffffff !important;
   background-color: #63749a;
-  border-radius: 50px;
-  box-shadow: 0 0 10px #63749a; /* Leichter Leuchteffekt */
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+/* --- 7. RESPONSIVE DESIGN (MOBILE) --- */
+@media (max-width: 768px) {
+  h1 { font-size: 3rem !important; }
+
+  .containerLine::before { 
+    left: 20px; 
+    transform: none; 
+  }
+
+  .containerLine::after {
+    left: 20px;
+    transform: translateX(-50%);
+  }
+
+  .history-card { 
+    width: 85%; 
+    float: right !important; 
+    text-align: left !important;
+    margin-left: 40px; 
+  }
+
+  .history-card::after {
+    left: -33px !important; /* Korrigiert für die 20px Linie */
+    right: auto !important;
+  }
 }
